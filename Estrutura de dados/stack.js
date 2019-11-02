@@ -9,7 +9,7 @@ class Stack{
 
   pop(){
     let value;
-    if(this.isEmpty()){
+    if(!this.isEmpty()){
       value = this.itens[this.itens.length - 1];
       this.itens.length--;
     }
@@ -19,9 +19,10 @@ class Stack{
 
   peek(){
     let value;
-    if(this.isEmpty()){
+    if(!this.isEmpty()){
       value = this.itens[this.itens.length - 1];
     }
+    
     return value;
   }
 
