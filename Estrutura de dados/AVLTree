@@ -1,0 +1,91 @@
+class Node{
+  constructor(key){
+    this.key = key;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class Tree{
+  constructor(){
+    this.root = null;
+  }
+
+  _heightNode(node){
+    if(!node){
+      return -1;
+    }
+
+    return Math.max(this._heightNode(node.left),this._heightNode(node.right)) + 1;
+  }
+
+  _rotationLL(node){
+    let aux = node.left;
+    node.left = aux.right;
+    aux.right = node;
+
+    return aux;
+  }
+
+  _rotationRR(node){
+    let aux = node.right;
+    node.right = aux.left;
+    aux.left = node;
+
+    return node;
+  }
+
+  _rotationLR(node){
+    node.left = this._rotationRR(node.left);
+    return this._rotationLL(node);
+  }
+
+  _addNode(node,newNode){
+    if(newNode.key < node.key){
+      if(!node.left){
+        node.left = newNode;
+      }else{
+        node.left = this._addNode(node.left,newNode);
+
+        if(this._heightNode(node.left) - this._heightNode(node.right) > 1){
+          if(newNode.key < node.left){
+            node = this._rotationLL(node);
+          }else{
+            node = this._rotationLR(node);
+          }
+          
+        }
+      }
+    }else{
+      if(!node.right){
+        node.right = newNode;
+      }else{
+        node.right = this._addNode(node.right,newNode);
+      }
+    }
+
+    return node;
+  }
+
+  add(key){
+    let node = new Node(key);
+
+    if(!this.root){
+      this.root = node;
+    }else{
+      this.root = this._addNode(this.root,node);
+    }
+  }
+}
+
+let tree = new Tree();
+tree.add(7);
+tree.add(3);
+tree.add(2);
+tree.add(1);
+tree.add(0);
+tree.add(-1);
+
+
+
+console.log(tree.root);
